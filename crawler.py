@@ -15,7 +15,13 @@ from selenium import webdriver
 
 url = input('Enter base url: ')
 fname = input('Enter output file name: ')
-path_to_chromedriver = '/usr/local/bin/chromedriver'
+path_to_chromedriver = input('Enter driver directory (default path will be used if not set): ')
+
+if not path_to_chromedriver:
+    path_to_chromedriver = '/usr/local/bin/chromedriver'
+
+if not fname:
+    fname = 'output.csv'
 
 def scroll(url):
     browser = webdriver.Chrome(executable_path = path_to_chromedriver)
@@ -32,7 +38,10 @@ def scroll(url):
     return browser.page_source
 
 def parse(html):
-    return None
+    soup = BeautifulSoup(html, "html.parser")
+    twts = []
+    
+    return twts
 
 def write(filename, lst):
     return
