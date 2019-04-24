@@ -41,11 +41,12 @@ def scroll(url):
             last = nxt
     return browser.page_source
 
-def parse(html):
+def parse(html, fname):
     """[summary]
     extract time and tweet from raw html. write the time and tweet in to csv file
     Arguments:
         html {[string]} -- [html of web page]
+        fname {[string]} -- [output file name]
     """
     soup = BeautifulSoup(html, "html.parser")
     twts = []
@@ -56,8 +57,12 @@ def parse(html):
             'timestamp': timestamp,
             'tweet':twt
         })
+    with open(fname, mode='w') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=['time', 'text'])
+        writer.writeheader()
+        writer.writerows(twts)
     return
 
 if __name__ == "__main__":
     html = scroll(url)
-    parse(html)
+    parse(html, fname)
