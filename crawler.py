@@ -13,7 +13,7 @@ import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-url = input('Enter base url: ')
+url = input('Set base url: ')
 fname = input('Enter output file name: ')
 path_to_chromedriver = input('Enter driver directory (default path will be used if not set): ')
 
@@ -43,10 +43,7 @@ def parse(html):
     
     return twts
 
-def write(filename, lst):
-    return
 
 if __name__ == "__main__":
     html = scroll(url)
-    twt_list = parse(html)
-    write(fname, twt_list)
+    parse(html)
