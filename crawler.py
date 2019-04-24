@@ -55,10 +55,10 @@ def parse(html, fname):
         twt = (item.p.get_text() if item.p is not None else '')
         twts.append({
             'timestamp': timestamp,
-            'tweet':twt
+            'tweet':twt.replace('\n', '')
         })
     with open(fname, mode='w') as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=['time', 'text'])
+        writer = csv.DictWriter(csv_file, fieldnames=['timestamp', 'tweet'])
         writer.writeheader()
         writer.writerows(twts)
     return
