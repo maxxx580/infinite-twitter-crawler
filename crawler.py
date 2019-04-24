@@ -5,9 +5,6 @@ Created on Fri Apr 28 15:13:01 2019
 """
 
 import csv
-import io
-import pprint as pp
-import re
 import time
 
 from bs4 import BeautifulSoup
@@ -24,6 +21,13 @@ if not fname:
     fname = 'output.csv'
 
 def scroll(url):
+    """[summary]
+    scroll the web page down infinitely
+    Arguments:
+        url {[string]} -- [twitter url of the page]
+    Returns:
+        [string] -- [html of the complete page]
+    """
     browser = webdriver.Chrome(executable_path = path_to_chromedriver)
     browser.get(url)
     last = browser.execute_script('return document.body.scrollHeight')
@@ -38,11 +42,21 @@ def scroll(url):
     return browser.page_source
 
 def parse(html):
+    """[summary]
+    extract time and tweet from raw html. write the time and tweet in to csv file
+    Arguments:
+        html {[string]} -- [html of web page]
+    """
     soup = BeautifulSoup(html, "html.parser")
     twts = []
-    
-    return twts
-
+    for item in soup.find_all('li', {'data-item-type':'tweet'}):
+        timestamp = (item.small.a['title'] if item.small is not None else '')
+        twt = (item.p.get_text() if item.p is not None else '')
+        twts.append({
+            'timestamp': timestamp,
+            'tweet':twt
+        })
+    return
 
 if __name__ == "__main__":
     html = scroll(url)
